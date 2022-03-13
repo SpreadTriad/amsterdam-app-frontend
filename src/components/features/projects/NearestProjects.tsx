@@ -1,17 +1,18 @@
 import Location from '@amsterdam/asc-assets/static/icons/Location.svg'
 import {useNavigation} from '@react-navigation/native'
 import {StackNavigationProp} from '@react-navigation/stack'
-import React, {useContext} from 'react'
+import React, {useContext, useEffect, useState} from 'react'
 import {StyleSheet} from 'react-native'
 import {FlatGrid} from 'react-native-super-grid'
 import {StackParams} from '../../../app/navigation'
 import {routes} from '../../../app/navigation/routes'
 import {Strides} from '../../../assets/icons'
-import {DeviceContext, SettingsContext} from '../../../providers'
+import {useAsyncStorage} from '../../../hooks'
+import {DeviceContext} from '../../../providers'
 import {useGetNearestProjectsQuery} from '../../../services'
 import {layoutStyles} from '../../../styles'
 import {color, size} from '../../../tokens'
-import {Project} from '../../../types'
+import {Address as AddressType, Project} from '../../../types'
 import {mapImageSources} from '../../../utils'
 import {Box, PleaseWait, Text, Trait} from '../../ui'
 import {Gutter, Row} from '../../ui/layout'
@@ -20,12 +21,17 @@ import {ProjectCard} from '../project'
 import {config} from './'
 
 export const NearestProjects = () => {
+  const asyncStorage = useAsyncStorage()
   const device = useContext(DeviceContext)
   const navigation =
     useNavigation<StackNavigationProp<StackParams, 'Projects'>>()
+  const [address, setAddress] = useState<AddressType | undefined>()
 
-  const {settings} = useContext(SettingsContext)
-  const {address} = {...settings}
+  useEffect(() => {
+    asyncStorage
+      .getValue<AddressType>('address')
+      .then(storedAddress => setAddress(storedAddress))
+  }, []) // eslint-disable-line react-hooks/exhaustive-deps
 
   const itemDimension = 16 * size.spacing.md * Math.max(device.fontScale, 1)
 
