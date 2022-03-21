@@ -11,9 +11,8 @@ import {DeviceContext, SettingsContext} from '../../../providers'
 import {useGetNearestProjectsQuery} from '../../../services'
 import {layoutStyles} from '../../../styles'
 import {color, size} from '../../../tokens'
-import {Project} from '../../../types'
 import {mapImageSources} from '../../../utils'
-import {Box, PleaseWait, Text, Trait} from '../../ui'
+import {Box, PleaseWait, Text, Title, Trait} from '../../ui'
 import {Gutter, Row} from '../../ui/layout'
 import {Address} from '../address'
 import {ProjectCard} from '../project'
@@ -41,7 +40,11 @@ export const NearestProjects = () => {
   }
 
   if (!address) {
-    return <Address />
+    return (
+      <Box>
+        <Address />
+      </Box>
+    )
   }
 
   if (!projects?.length) {
@@ -52,51 +55,44 @@ export const NearestProjects = () => {
     )
   }
 
-  const listHeaderComponent = () => (
-    <>
-      <Box insetHorizontal="md">
-        <Text intro>Dichtbij {address.adres}</Text>
-      </Box>
-      <Gutter height="md" />
-    </>
-  )
-
-  const renderItem = ({item: project}: {item: Project}) => (
-    <ProjectCard
-      imageSource={mapImageSources(project.images[0].sources)}
-      kicker={
-        <Row gutter="xs">
-          <Trait
-            icon={<Location fill={color.font.primary} />}
-            label={`${project.meter} meter,`}
-          />
-          <Trait
-            icon={<Strides fill={color.font.primary} />}
-            label={`${project.strides} stappen`}
-          />
-        </Row>
-      }
-      onPress={() =>
-        navigation.navigate(routes.projectDetail.name, {
-          id: project.identifier,
-        })
-      }
-      style={layoutStyles.grow}
-      title={project.title}
-      subtitle={project.subtitle ?? undefined}
-    />
-  )
-
   return (
     <>
+      <Gutter height="md" />
+      <Box insetHorizontal="md">
+        <Title level={4} text={`Dichtbij ${address.adres}`} />
+      </Box>
       <FlatGrid
         data={projects}
-        ListHeaderComponent={listHeaderComponent}
         itemContainerStyle={styles.alignment}
         itemDimension={itemDimension}
         keyExtractor={project => project.identifier}
-        renderItem={renderItem}
-        spacing={size.spacing.md}
+        renderItem={({item: project}) => (
+          <ProjectCard
+            imageSource={mapImageSources(project.images[0].sources)}
+            kicker={
+              <Row gutter="xs">
+                <Trait
+                  icon={<Location fill={color.font.primary} />}
+                  label={`${project.meter} meter,`}
+                />
+                <Trait
+                  icon={<Strides fill={color.font.primary} />}
+                  label={`${project.strides} stappen`}
+                />
+              </Row>
+            }
+            onPress={() =>
+              navigation.navigate(routes.projectDetail.name, {
+                id: project.identifier,
+              })
+            }
+            style={layoutStyles.grow}
+            title={project.title}
+            subtitle={project.subtitle ?? undefined}
+          />
+        )}
+        spacing={size.spacing.sm}
+        style={styles.grid}
       />
     </>
   )
@@ -105,5 +101,8 @@ export const NearestProjects = () => {
 const styles = StyleSheet.create({
   alignment: {
     justifyContent: 'flex-start',
+  },
+  grid: {
+    margin: size.spacing.sm,
   },
 })

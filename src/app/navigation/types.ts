@@ -52,6 +52,7 @@ export type SharedStackParams = {
   ProjectManager: {id: string}
   ProjectNews: {id: string}
   Projects: undefined
+  ProjectsForDistrict: {id: number}
   ProjectWarning: {id: string}
   Settings: undefined
   WasteGuide: undefined
