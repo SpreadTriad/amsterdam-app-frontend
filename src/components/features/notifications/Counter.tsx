@@ -14,6 +14,17 @@ export const NotificationsCounter = ({...props}) => {
     number | undefined
   >()
 
+  const styles = StyleSheet.create({
+    counter: {
+      justifyContent: 'center',
+      alignItems: 'center',
+      width: unreadNotifications && unreadNotifications > 99 ? 27 : 20,
+      height: 20,
+      borderRadius: 20 / 2,
+      backgroundColor: color.background.invalid,
+    },
+  })
+
   const subscribedProjects = getSubscribedProjects(
     notificationSettings?.projects,
   )
@@ -27,11 +38,17 @@ export const NotificationsCounter = ({...props}) => {
   )
 
   useEffect(() => {
-    const unreadCount = notificationSettings?.readIds
-      ? notifications.length - notificationSettings?.readIds.length
-      : notifications.length
-    setUnreadNotifications(unreadCount)
+    if (notifications.length) {
+      const unreadCount = notificationSettings?.readIds
+        ? notifications.length - notificationSettings?.readIds.length
+        : notifications.length
+      setUnreadNotifications(unreadCount)
+    }
   }, [notifications, notificationSettings?.readIds])
+
+  if (!subscribedProjects.length) {
+    return null
+  }
 
   return (
     <View style={[styles.counter, props.style]}>
@@ -43,14 +60,3 @@ export const NotificationsCounter = ({...props}) => {
     </View>
   )
 }
-
-const styles = StyleSheet.create({
-  counter: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    width: 22,
-    height: 22,
-    borderRadius: 22 / 2,
-    backgroundColor: color.background.invalid,
-  },
-})
