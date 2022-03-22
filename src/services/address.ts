@@ -9,7 +9,10 @@ export const addressApi = baseApi.injectEndpoints({
   endpoints: builder => ({
     getAddress: builder.query<Address, string>({
       query: params => {
-        return generateRequestUrl(addressUrl, {features: 2, q: params})
+        return generateRequestUrl(addressUrl, {
+          features: 2, // Includes addresses in Weesp
+          q: params,
+        })
       },
       transformResponse: (response: ResponseAddress) => {
         const address = response.results[0]
@@ -37,7 +40,10 @@ export const addressApi = baseApi.injectEndpoints({
     }),
     getBag: builder.query<BagResponse[], string>({
       query: params => {
-        return generateRequestUrl(bagUrl, {features: 2, q: params})
+        return generateRequestUrl(bagUrl, {
+          features: 2, // Includes addresses in Weesp
+          q: params,
+        })
       },
     }),
   }),
