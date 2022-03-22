@@ -14,11 +14,21 @@ export const NotificationsCounter = ({...props}) => {
     number | undefined
   >()
 
+  const getContainerWidth = () => {
+    if (unreadNotifications && unreadNotifications > 99) {
+      return 32
+    }
+    if (unreadNotifications && unreadNotifications > 9) {
+      return 24
+    }
+    return 20
+  }
+
   const styles = StyleSheet.create({
     counter: {
       justifyContent: 'center',
       alignItems: 'center',
-      width: unreadNotifications && unreadNotifications > 99 ? 27 : 20,
+      width: getContainerWidth(),
       height: 20,
       borderRadius: 20 / 2,
       backgroundColor: color.background.invalid,
@@ -53,7 +63,9 @@ export const NotificationsCounter = ({...props}) => {
   return (
     <View style={[styles.counter, props.style]}>
       {unreadNotifications ? (
-        <Text inverse>{unreadNotifications}</Text>
+        <Text allowFontScaling={false} inverse>
+          {unreadNotifications}
+        </Text>
       ) : (
         <ActivityIndicator />
       )}
