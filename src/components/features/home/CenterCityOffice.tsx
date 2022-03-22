@@ -11,9 +11,8 @@ export const CenterCityOffice = () => {
       url: getEnvironment().apiUrl + '/city/offices',
     })
 
-  // TODO Remove backwards compatibility
   const centerCityOffice = cityOffices?.offices.find(office =>
-    (office.title ?? office.location ?? '').includes('Centrum'),
+    office.title.includes('Centrum'),
   )
 
   if (isCityOfficesLoading) {

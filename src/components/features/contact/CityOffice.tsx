@@ -45,9 +45,7 @@ export const CityOffice = ({id}: Props) => {
   }
 
   // TODO Remove backwards compatibility
-  const title = cityOffice.title ?? cityOffice.location ?? ''
-  const addressText = cityOffice.address.text ?? cityOffice.address.txt
-  const [addressLine1, addressLine2] = addressText.split('\n\n') // TEMP
+  const [addressLine1, addressLine2] = cityOffice.address.text.split('\n\n') // TEMP
 
   const imageSources = cityOffice.images.sources ?? ({} as ImageSources)
   const hasImage = Object.keys(imageSources).length
@@ -58,7 +56,7 @@ export const CityOffice = ({id}: Props) => {
       <CardBody>
         <Column gutter="md">
           <View>
-            <Title level={2} text={title} />
+            <Title level={2} text={cityOffice.title} />
             <SingleSelectable
               accessibilityLabel={accessibleText(
                 'Adres',

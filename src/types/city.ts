@@ -1,5 +1,5 @@
 import {Image} from './image'
-import {RichText, RichTxt, Section} from './section'
+import {RichText, Section} from './section'
 
 export type CityContactInfo = {
   sections: Section[]
@@ -11,23 +11,21 @@ export type CityOffices = {
 
 export type CityOfficeOverviewItem = {
   identifier: string
-  location?: string
-  title?: string
+  title: string
   url: string
 }
 
 export type CityOffice = {
   active: boolean
-  address: RichText & RichTxt
+  address: RichText
   identifier: string
   contact: {
-    Bellen: RichText & RichTxt
-    Mailen: RichText & RichTxt
-    Openingstijden: RichText & RichTxt
+    Bellen: RichText
+    Mailen: RichText
+    Openingstijden: RichText
   }
   images: Image
-  info: RichText & RichTxt
+  info: RichText
   last_seen: string // date
-  location?: string
-  title?: string
+  title: string
 }
