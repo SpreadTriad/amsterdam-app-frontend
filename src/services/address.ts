@@ -1,4 +1,4 @@
-import {ResponseAddress, BagResponse, Address} from '../types'
+import {Address, BagResponse, ResponseAddress} from '../types'
 import {generateRequestUrl} from '../utils'
 import {baseApi} from './init'
 
