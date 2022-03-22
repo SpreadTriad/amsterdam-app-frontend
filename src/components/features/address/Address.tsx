@@ -6,7 +6,7 @@ import {StackParams} from '../../../app/navigation'
 import {routes} from '../../../app/navigation/routes'
 import {useAsyncStorage} from '../../../hooks'
 import {AlertContext} from '../../../providers'
-import {Address as Addresstype} from '../../../types'
+import {Address as AddressType} from '../../../types'
 import {
   Button,
   Card,
@@ -21,13 +21,13 @@ import {Column, Gutter, Row} from '../../ui/layout'
 export const Address = () => {
   const navigation = useNavigation<StackNavigationProp<StackParams, 'Home'>>()
   const asyncStorage = useAsyncStorage()
-  const [address, setAddress] = useState<Addresstype | undefined>()
+  const [address, setAddress] = useState<AddressType | undefined>()
 
   const {changeContent, changeVariant} = useContext(AlertContext)
 
   useFocusEffect(() => {
     asyncStorage
-      .getValue<Addresstype>('address')
+      .getValue<AddressType>('address')
       .then(storedAddress => setAddress(storedAddress))
   })
 
